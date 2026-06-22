@@ -1,0 +1,11 @@
+District,Agro_Climatic_Zone,Year,Historical_LPA_mm,Actual_Monsoon_Rainfall_mm,Rainfall_Deficit_Pct,Monsoon_Dry_Days_Count,June_Rainfall_mm,July_Rainfall_mm,August_Rainfall_mm,September_Rainfall_mm,Water_Scarcity_Risk_Label
+Durg,Chhattisgarh Plains,2015,1100,975.8,-11.29,67,135.1,295.6,326.4,218.7,Normal / Balanced
+Durg,Chhattisgarh Plains,2016,1100,1312.1,19.28,60,163.8,416.8,424.1,307.4,Normal / Balanced
+Durg,Chhattisgarh Plains,2017,1100,858.9,-21.92,69,124.1,245.4,225.2,264.2,Moderate Scarcity
+Durg,Chhattisgarh Plains,2018,1100,1408.8,28.07,51,208.3,521.5,457.1,221.9,Excess Moisture
+Durg,Chhattisgarh Plains,2019,1100,1270.3,15.48,46,249.2,417.4,473.3,130.4,Normal / Balanced
+Durg,Chhattisgarh Plains,2020,1100,1287.1,17.01,48,196.4,409.3,403.7,277.7,Normal / Balanced
+Durg,Chhattisgarh Plains,2021,1100,1050.0,-4.55,58,168.7,408.6,303.7,169.0,Normal / Balanced
+Durg,Chhattisgarh Plains,2022,1100,1117.7,1.61,62,198.3,383.5,322.8,213.1,Normal / Balanced
+Durg,Chhattisgarh Plains,2023,1100,1034.1,-5.99,60,185.2,312.2,307.0,229.7,Normal / Balanced
+Durg,Chhattisgarh Plains,2024,1100,766.8,-30.29,67,121.8,261.1,237.9,146.0,Moderate Scarcity
