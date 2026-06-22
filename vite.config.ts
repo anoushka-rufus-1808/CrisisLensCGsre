@@ -14,6 +14,15 @@ export default defineConfig({
     port: 5000,
     host: "0.0.0.0",
     allowedHosts: true,
+    watch: {
+      ignored: [
+        "**/.pythonlibs/**",
+        "**/.cache/**",
+        "**/forecast-service/**",
+        "**/public/data/**",
+        "**/.uv/**",
+      ],
+    },
     proxy: {
       "/api/forecast": {
         target: "http://localhost:8001",
