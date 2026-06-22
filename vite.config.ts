@@ -25,20 +25,9 @@ export default defineConfig({
       ],
     },
     proxy: {
-      "/api/forecast": {
+      "/api": {
         target: "http://localhost:8001",
         changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api/, ""),
-      },
-      "/api/facilities": {
-        target: "http://localhost:8001",
-        changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api/, ""),
-      },
-      "/api/email": {
-        target: "http://localhost:8001",
-        changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api/, ""),
       },
     },
   },

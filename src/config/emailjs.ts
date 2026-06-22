@@ -1,10 +1,11 @@
 export const EMAILJS_CONFIG = {
-  serviceId:  "",   // ← replace with your Service ID
-  templateId: "",  // ← replace with your Template ID
-  publicKey:  "",    // ← replace with your Public Key
-
-  // Who receives the alerts — add as many as needed
+  serviceId:  import.meta.env.VITE_EMAILJS_SERVICE_ID  ?? "",
+  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "",
+  publicKey:  import.meta.env.VITE_EMAILJS_PUBLIC_KEY  ?? "",
   recipients: [
-    { name: "Education Officer",     email: "sreejamarar255@gmail.com"      },
+    {
+      name:  import.meta.env.VITE_ALERT_RECIPIENT_NAME  ?? "Education Officer",
+      email: import.meta.env.VITE_ALERT_RECIPIENT_EMAIL ?? "",
+    },
   ],
 };

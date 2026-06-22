@@ -1,8 +1,10 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional
+import os
 import pandas as pd
 import numpy as np
 from datetime import timedelta
@@ -35,8 +37,8 @@ from routes.facilities import router as facilities_router
 from routes.forecast_sse import router as forecast_sse_router
 
 init_db()
-app.include_router(facilities_router)
-app.include_router(forecast_sse_router, prefix="/forecast")
+app.include_router(facilities_router, prefix="/api")
+app.include_router(forecast_sse_router, prefix="/api/forecast")
 
 # ── Global exception handler ──────────────────────────────────────────────────
 @app.exception_handler(Exception)
@@ -82,7 +84,7 @@ class DataPoint(BaseModel):
 class ForecastRequest(BaseModel):
     data: list[DataPoint]
     horizon: int
-    model: str = "prophet"
+    model: str = "random_forest"
     metric_name: Optional[str] = "value"
     state: Optional[str] = None
 
@@ -257,7 +259,7 @@ def run_random_forest(df: pd.DataFrame, horizon: int):
 def health():
     return {"status": "healthy", "cache_entries": len(_cache), "prophet_available": PROPHET_AVAILABLE}
 
-@app.post("/forecast", response_model=ForecastResponse)
+@app.post("/api/forecast", response_model=ForecastResponse)
 def forecast(req: ForecastRequest):
     if req.horizon not in [30, 60, 90]:
         raise HTTPException(status_code=400, detail="horizon must be 30, 60, or 90")
@@ -294,7 +296,7 @@ def forecast(req: ForecastRequest):
     _set_cached(cache_key, result)
     return ForecastResponse(**result)
 
-@app.post("/forecast/compare")
+@app.post("/api/forecast/compare")
 def forecast_compare(req: ForecastRequest):
     if req.horizon not in [30, 60, 90]:
         raise HTTPException(status_code=400, detail="horizon must be 30, 60, or 90")
@@ -334,12 +336,17 @@ def forecast_compare(req: ForecastRequest):
                           "mape": round(rf_mape, 2) if rf_mape is not None else None},
     }
 
-@app.delete("/cache")
+@app.delete("/api/cache")
 def clear_cache():
     count = len(_cache)
     _cache.clear()
     return {"cleared": count}
 
+# ── Serve built React frontend (SPA) ─────────────────────────────────────────
+_DIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "dist")
+if os.path.isdir(_DIST):
+    app.mount("/", StaticFiles(directory=_DIST, html=True), name="spa")
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8001)))

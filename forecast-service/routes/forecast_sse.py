@@ -2,6 +2,7 @@ import asyncio
 import threading
 import uuid
 import json
+import os
 import httpx
 
 from fastapi import APIRouter, HTTPException
@@ -33,7 +34,8 @@ async def start_forecast_run(req: ForecastRunRequest):
     state = {"done": 0, "total": len(req.facilities)}
 
     def run_in_background():
-        sem = threading.Semaphore(req.concurrency)
+        sem  = threading.Semaphore(req.concurrency)
+        port = os.environ.get("PORT", "8001")
 
         def forecast_one(facility: dict[str, Any]):
             with sem:
@@ -63,7 +65,7 @@ async def start_forecast_run(req: ForecastRunRequest):
                 if len(data_points) >= 10:
                     try:
                         resp = httpx.post(
-                            "http://localhost:8001/forecast",
+                            f"http://localhost:{port}/api/forecast",
                             json={
                                 "data":        data_points,
                                 "horizon":     req.horizon,
