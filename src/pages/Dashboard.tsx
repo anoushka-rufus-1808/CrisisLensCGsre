@@ -79,7 +79,7 @@ function useCGGeoJson(): any {
   const [gj, setGj] = useState<any>(null);
   useEffect(() => {
     const base = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "");
-    fetch(`${base}/data/chhattisgarh-districts.geojson`)
+    fetch(`${base}/data/historical/chhattisgarh-districts.geojson`)
       .then((r) => r.json())
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((j: any) => setGj(j))
