@@ -218,7 +218,7 @@ def run_random_forest(df: pd.DataFrame, horizon: int):
         y = target.loc[valid_idx]
         if len(X) < 5:
             raise HTTPException(status_code=400, detail="Need at least 20 data points for Random Forest")
-        model = RandomForestRegressor(n_estimators=200, max_depth=10, random_state=42, n_jobs=-1)
+        model = RandomForestRegressor(n_estimators=100, max_depth=8, random_state=42, n_jobs=1)
         model.fit(X, y)
         train_preds  = model.predict(X)
         mape         = float((np.abs(y.values - train_preds) / (np.abs(y.values) + 1e-8)).mean() * 100)
