@@ -254,6 +254,8 @@ def run_random_forest(df: pd.DataFrame, horizon: int):
     except HTTPException:
         raise
     except Exception as e:
+        import traceback
+        print(f"[RF ERROR] Full traceback:\n{traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"Random Forest error: {str(e)}")
 
 # ── Routes ────────────────────────────────────────────────────────────────────
