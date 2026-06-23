@@ -16,8 +16,10 @@ import traceback
 
 warnings.filterwarnings("ignore")
 
+PROPHET_AVAILABLE = False
 try:
-    from prophet import Prophet as _Prophet
+    import importlib
+    importlib.util.find_spec("prophet")
     PROPHET_AVAILABLE = True
 except Exception:
     PROPHET_AVAILABLE = False
