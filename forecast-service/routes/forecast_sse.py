@@ -21,7 +21,7 @@ class ForecastRunRequest(BaseModel):
     districtHistories: dict[str, Any]
     horizon:           int
     model:             str
-    concurrency:       int = 5
+    concurrency:       int = 2
 
 
 @router.post("/run")
