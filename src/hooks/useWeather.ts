@@ -76,7 +76,8 @@ const CITIES = [
   },
 ];
 
-function weatherCodeToCondition(code: number): string {
+function weatherCodeToCondition(code: number, precipProb?: number): string {
+  if ((precipProb ?? 0) >= 60 && code <= 3) return "Rain Likely";
   if (code === 0) return "Clear Sky";
   if (code <= 2) return "Mainly Clear";
   if (code === 3) return "Overcast";
@@ -91,7 +92,7 @@ function weatherCodeToCondition(code: number): string {
 async function fetchCityWeather(lat: number, lng: number) {
   const url =
     `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}` +
-    `&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code,uv_index` +
+    `&current=temperature_2m,relative_humidity_2m,precipitation,precipitation_probability,wind_speed_10m,weather_code,uv_index` +
     `&timezone=Asia%2FKolkata`;
   const res = await fetch(url);
   if (!res.ok) throw new Error("fetch failed");
@@ -131,7 +132,7 @@ export function useWeather(): CityWeather[] {
             return {
               city: c.city,
               temp: parseFloat(cur.temperature_2m).toFixed(1),
-              condition: weatherCodeToCondition(cur.weather_code),
+              condition: weatherCodeToCondition(cur.weather_code, cur.precipitation_probability),
               humidity: cur.relative_humidity_2m ?? c.fallback.humidity,
               rainfall: cur.precipitation ?? c.fallback.rainfall,
               wind: parseFloat((cur.wind_speed_10m ?? c.fallback.wind).toFixed(1)),
