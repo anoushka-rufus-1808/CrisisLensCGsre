@@ -76,16 +76,19 @@ const CITIES = [
   },
 ];
 
-function weatherCodeToCondition(code: number, precipProb?: number): string {
-  if ((precipProb ?? 0) >= 60 && code <= 3) return "Rain Likely";
-  if (code === 0) return "Clear Sky";
-  if (code <= 2) return "Mainly Clear";
-  if (code === 3) return "Overcast";
-  if (code <= 48) return "Foggy";
-  if (code <= 67) return "Drizzle";
-  if (code <= 77) return "Snow";
-  if (code <= 82) return "Rain Showers";
-  if (code >= 95) return "Thunderstorm";
+function weatherCodeToCondition(code: number): string {
+  if (code === 0)             return "Clear Sky";
+  if (code === 1)             return "Mainly Clear";
+  if (code === 2)             return "Partly Cloudy";
+  if (code === 3)             return "Overcast";
+  if (code === 45 || code === 48) return "Foggy";
+  if (code >= 51 && code <= 57)   return "Drizzle";
+  if (code >= 61 && code <= 67)   return "Rain";
+  if (code >= 71 && code <= 77)   return "Snow";
+  if (code >= 80 && code <= 82)   return "Rain Showers";
+  if (code === 85 || code === 86) return "Snow Showers";
+  if (code === 95)                return "Thunderstorm";
+  if (code === 96 || code === 99) return "Thunderstorm with Hail";
   return "Partly Cloudy";
 }
 
